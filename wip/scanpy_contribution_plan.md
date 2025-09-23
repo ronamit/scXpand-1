@@ -22,12 +22,12 @@
 
 ### **Current Code Files**
 
-#### **AnnData Enhanced Dataset Loader** (`/Users/rona/my_repos/anndata`)
+#### **AnnData PyTorch Dataset** (`/Users/rona/my_repos/anndata`)
 ```
 Branch: feature/enhanced-dataset-loader
-├── src/anndata/experimental/pytorch/_enhanced_dataset.py (663 lines - production ready)
+├── src/anndata/experimental/pytorch/_ann_dataset.py (687 lines - production ready)
 ├── src/anndata/experimental/pytorch/__init__.py (updated exports)
-├── src/anndata/tests/test_enhanced_dataset.py (407 lines - comprehensive tests)
+├── src/anndata/tests/test_ann_dataset.py (433 lines - comprehensive tests)
 ├── docs/tutorials/notebooks/anndataset-demo.ipynb (tutorial notebook with path fix)
 └── docs/tutorials/index.md (updated with new tutorial)
 ```
@@ -83,16 +83,17 @@ gh pr ready 2127
 
 ## 📋 **PR SUMMARIES**
 
-### **PR #1: Enhanced Dataset Loader (AnnData #2127)**
+### **PR #1: PyTorch Dataset Integration (AnnData #2127)**
 **Repository**: https://github.com/scverse/anndata/pull/2127
-**Impact**: Production-ready PyTorch integration for single-cell ML
+**Impact**: Production-ready PyTorch integration for ML workflows
 
-#### **Features** ✅ **REFACTORED FOR GENERIC USE**
-- **Generic technical capabilities**: Configurable preprocessing pipelines
-- **Generic augmentation interface**: Accept any augmentation function
+#### **Features** ✅ **GENERIC TECHNICAL CAPABILITIES**
+- **Generic dataset interface**: PyTorch Dataset implementation for AnnData objects
+- **Generic augmentation interface**: Accept any callable augmentation function
 - **Multiprocessing-safe HDF5 reading**: Retry mechanisms for robust I/O
 - **Memory-efficient streaming**: Stream from backed data without loading into memory
 - **Configurable chunk processing**: User-defined chunk sizes for memory management
+- **Optimized batch loading**: Sorted indices for efficient sequential disk access
 - **Full backwards compatibility**: Works with existing AnnLoader workflows
 
 #### **Usage**
@@ -101,11 +102,8 @@ from anndata.experimental.pytorch import AnnDataset, PreprocessingConfig, Augmen
 
 # Custom augmentation function
 def custom_augmentation(X):
-    # Gene masking + noise
-    mask = torch.rand(X.shape) < 0.1
-    X_masked = X * (~mask).float()
-    noise = torch.normal(0, 0.05, X.shape)
-    return X_masked + noise
+    # Implement any augmentation logic
+    return X
 
 dataset = AnnDataset(
     adata,
@@ -175,7 +173,7 @@ sc.experimental.pp.highly_variable_genes(adata, n_top_genes=2000, config=config)
 
 ## 🔄 **RECENT REFACTORING COMPLETED**
 
-### **AnnDataset - Major Refactoring (Completed)**
+### **AnnDataset - Major Refactoring & Renaming (Completed)**
 - ✅ **Renamed to AnnDataset**: Better name that indicates it's the standard dataset, not an "enhancement"
 - ✅ **Removed domain-specific features**: Gene transformation pipeline removed
 - ✅ **Generic augmentation interface**: Now accepts any callable function
@@ -183,20 +181,25 @@ sc.experimental.pp.highly_variable_genes(adata, n_top_genes=2000, config=config)
 - ✅ **Documentation updated**: Tutorial notebook created and added to docs
 - ✅ **Tests updated**: Comprehensive test suite maintained
 - ✅ **Professional code**: Clean, well-documented, production-ready
+- ✅ **File renaming**: `_enhanced_dataset.py` → `_ann_dataset.py`, `test_enhanced_dataset.py` → `test_ann_dataset.py`
+- ✅ **Pre-commit compliance**: All linting issues resolved
+- ✅ **PR description updated**: Professional, accurate, guideline-compliant
 
 ### **Refactoring Benefits**
 - **More generic**: Technical tool for any ML workflow, not just single-cell specific
 - **Better flexibility**: Users can implement custom augmentation and gene selection
 - **Cleaner codebase**: Removed complex domain logic, focused on technical capabilities
 - **Better maintainability**: Simpler, more focused implementation
+- **Standard naming**: Follows PyTorch dataset conventions, no redundant terminology
 
 ## ✅ **CURRENT STATUS**
 
 ### **All PRs Ready for Submission**
-- ✅ **AnnData PR**: Clean, tested, refactored for generic use
+- ✅ **AnnData PR**: Clean, tested, refactored for generic use, renamed to standard naming
 - ✅ **Sparse PCA PR**: Experimental namespace, performance optimized
 - ✅ **HVG PR**: Experimental namespace, universal bottleneck addressed
 - ✅ **All descriptions updated**: Professional, no superlatives or emojis
+- ✅ **Pre-commit compliance**: All linting issues resolved
 
 ### **Compliance with Guidelines**
 - ✅ **Generic technical focus**: AnnData PR now provides technical capabilities, not domain-specific features
@@ -246,6 +249,9 @@ sc.experimental.pp.highly_variable_genes(adata, n_top_genes=2000, config=config)
 - ✅ **Notebook Path Fix**: Added `sys.path.insert(0, os.path.abspath('../../..'))`
 - ✅ **Import Verification**: All imports working correctly in virtual environment
 - ✅ **Clean Git Status**: Removed test files, clean working directory
-- ✅ **Production Ready**: 663 lines of production-quality code + 407 lines of tests
+- ✅ **Production Ready**: 687 lines of production-quality code + 433 lines of tests
+- ✅ **File Renaming**: Removed "enhanced" terminology, standard PyTorch dataset naming
+- ✅ **Pre-commit Compliance**: All linting issues resolved, professional code quality
+- ✅ **PR Description**: Updated with accurate file names and generic technical language
 
 **🎯 READY FOR SUBMISSION: Execute Step 1 to submit the AnnData PR!**
