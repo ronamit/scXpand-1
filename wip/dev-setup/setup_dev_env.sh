@@ -1,6 +1,19 @@
 #!/bin/bash
 # Development Environment Setup Script
+#
 # Usage: source setup_dev_env.sh
+#
+# This script sets up a complete development environment for any Python project:
+# 1. Creates a virtual environment using uv
+# 2. Installs the project in editable mode with dev dependencies
+# 3. Sets up pre-commit hooks if available
+#
+# Requirements: uv (https://astral.sh/uv/install.sh)
+#
+# Example:
+#   cp -r /path/to/dev-setup /my/project/
+#   cd /my/project
+#   source dev-setup/setup_dev_env.sh
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -38,7 +51,7 @@ echo "✅ uv is available: $(uv --version)"
 
 # Create virtual environment
 echo "🔧 Creating virtual environment..."
-uv venv
+uv venv venv
 
 # Activate the virtual environment
 echo "🔌 Activating virtual environment..."

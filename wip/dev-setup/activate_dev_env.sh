@@ -1,6 +1,19 @@
 #!/bin/bash
 # Development Environment Activation Script
+#
 # Usage: source activate_dev_env.sh
+#
+# This script activates a development environment for any Python project:
+# 1. Detects the project root automatically
+# 2. Creates virtual environment if it doesn't exist
+# 3. Activates the environment and sets up PYTHONPATH
+#
+# Requirements: uv (https://astral.sh/uv/install.sh)
+#
+# Example:
+#   cp -r /path/to/dev-setup /my/project/
+#   cd /my/project
+#   source dev-setup/activate_dev_env.sh
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -25,7 +38,7 @@ cd "$PROJECT_ROOT"
 # Check if venv exists, create if not
 if [[ ! -d "venv" ]]; then
     echo "🔧 Creating virtual environment with uv..."
-    uv venv
+    uv venv venv
 fi
 
 # Activate the virtual environment
@@ -34,11 +47,8 @@ source venv/bin/activate
 # Set up environment variables
 export PYTHONPATH="$PROJECT_ROOT/src:$PYTHONPATH"
 
-# Get project name from pyproject.toml or directory name
+# Get project name from directory name
 PROJECT_NAME=$(basename "$PROJECT_ROOT")
-if [[ -f "pyproject.toml" ]]; then
-    PROJECT_NAME=$(grep -E '^name\s*=' pyproject.toml | sed 's/name\s*=\s*["\x27]\([^"\x27]*\)["\x27].*/\1/' | head -1)
-fi
 
 echo "🚀 Development Environment Activated!"
 echo "📍 Project: $PROJECT_NAME"
