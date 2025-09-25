@@ -6,7 +6,6 @@
 | Repository | Branch | PR | Status |
 |------------|--------|----|---------|
 | **AnnData** | `feature/enhanced-dataset-loader` | [#2127](https://github.com/scverse/anndata/pull/2127) (DRAFT) | ✅ Ready for submission |
-| **AnnData Tutorials** | `feature/anndataset-demo-notebook` | [#23](https://github.com/scverse/anndata-tutorials/pull/23) (DRAFT) | ✅ Ready for coordination |
 | **Scanpy** | `feature/sparse-pca-clean-v2` | [#3812](https://github.com/scverse/scanpy/pull/3812) (DRAFT) | ✅ Ready for submission |
 | **Scanpy** | `feature/sparse-pca-clean-v2` | [#3813](https://github.com/scverse/scanpy/pull/3813) (DRAFT) | ✅ Ready for submission |
 
@@ -17,9 +16,8 @@
 ## 🎯 **SUBMISSION STRATEGY**
 
 ### **Phase 1: AnnData Foundation (This Week)**
-1. **✅ Tutorial PR Created** - [PR #23](https://github.com/scverse/anndata-tutorials/pull/23) in draft mode
+1. **✅ Tutorial Included** - Notebook already included in main PR via submodule
 2. **🎯 Submit Main PR** - `cd /Users/rona/my_repos/anndata && gh pr ready 2127`
-3. **Submit Tutorial PR** - `gh pr ready --repo scverse/anndata-tutorials 23` (after main PR)
 
 ### **Phase 2: Scanpy Optimizations (Week 2-3)**
 1. **Sparse PCA** - `cd /Users/rona/my_repos/scanpy && gh pr ready 3812`
@@ -37,11 +35,12 @@
 - Batch ordering guarantee with optimized collate
 - 46 comprehensive tests (27 core + 10 multiprocessing + 9 transforms)
 
-### **AnnDataset Tutorial (#23)**
+### **AnnDataset Tutorial (Included in Main PR)**
 **Impact**: Comprehensive demonstration of PyTorch Dataset integration
-- 551 lines demonstrating Transform system and realistic workflows
+- 307 lines demonstrating Transform system and realistic workflows
 - Complete PyTorch training loop with scanpy datasets
 - Professional documentation complementing main implementation
+- Included via `docs/tutorials/notebooks` submodule
 
 ### **Sparse PCA Optimization (#3812)**
 **Impact**: Enables million-cell PCA analysis on standard hardware
@@ -164,23 +163,20 @@ cd /Users/rona/my_repos/anndata && gh pr ready 2127
 ```
 
 ### **Follow-up Sequence**
-1. Submit tutorial PR after main PR gains traction
-2. Monitor for reviewer feedback (respond within 24 hours)
-3. Submit Scanpy PRs based on AnnData reception
-4. Document maintainer preferences for future contributions
+1. Monitor for reviewer feedback (respond within 24 hours)
+2. Submit Scanpy PRs based on AnnData reception
+3. Document maintainer preferences for future contributions
 
 ## 🔗 **QUICK REFERENCE**
 
 ### **Commands**
 - **Submit AnnData**: `cd /Users/rona/my_repos/anndata && gh pr ready 2127`
-- **Submit Tutorial**: `gh pr ready --repo scverse/anndata-tutorials 23`
 - **Submit Sparse PCA**: `cd /Users/rona/my_repos/scanpy && gh pr ready 3812`
 - **Submit HVG**: `cd /Users/rona/my_repos/scanpy && gh pr ready 3813`
 - **Check Status**: `gh pr list --state open`
 
 ### **Key Links**
 - [AnnData PR #2127](https://github.com/scverse/anndata/pull/2127)
-- [Tutorial PR #23](https://github.com/scverse/anndata-tutorials/pull/23)
 - [Sparse PCA PR #3812](https://github.com/scverse/scanpy/pull/3812)
 - [HVG PR #3813](https://github.com/scverse/scanpy/pull/3813)
 
