@@ -85,6 +85,18 @@ ImportError: PyTorch is required for AnnDataset. Please install PyTorch: pip ins
 - Add `@pytest.mark.skipif(not TORCH_AVAILABLE)` to test classes
 - Skip doctests with `# doctest: +SKIP` for PyTorch-dependent examples
 
+#### **Conditional Import Structure** ✅ **RESOLVED**
+**Problem**: ImportError when trying to import PyTorch-specific classes unconditionally
+```
+ImportError: cannot import name 'Compose' from 'anndata.experimental.pytorch'
+```
+**Root Cause**: Classes inheriting from PyTorch classes defined at module level
+**Solution**:
+- Move PyTorch-dependent imports inside `if TORCH_AVAILABLE:` blocks
+- Define classes that inherit from PyTorch classes inside conditional blocks
+- Keep pytest fixtures outside conditional blocks (they don't depend on PyTorch)
+- Structure: `if TORCH_AVAILABLE: import torch; class MyTransform(Transform): ...`
+
 #### **Linting Discrepancies** ✅ **RESOLVED**
 **Problem**: Local ruff checks passed, but CI failed with different rules
 ```
@@ -108,6 +120,8 @@ SIM118 Use `key in dict` instead of `key in dict.keys()`
 - **Missing dependencies**: Add `@pytest.mark.skipif` test skipping
 - **Import errors**: Check optional dependency handling
 - **Environment differences**: Test in clean virtual environment
+- **Conditional import errors**: Move optional dependency imports inside availability checks
+- **Class definition errors**: Define classes inheriting from optional dependencies conditionally
 
 **Linting Failures**:
 - **Unused variables**: Remove or prefix with underscore
@@ -128,6 +142,8 @@ SIM118 Use `key in dict` instead of `key in dict.keys()`
 - [ ] Check test coverage (ensure new code is tested)
 - [ ] Validate imports (test in clean environment)
 - [ ] Review CI configuration (understand what checks will run)
+- [ ] **Test import structure** (ensure conditional imports work in minimal environments)
+- [ ] **Verify class definitions** (move optional dependency classes inside conditional blocks)
 
 ### **Code Quality Standards**
 - ✅ **Handle optional dependencies gracefully** (import checks, test skipping)
@@ -135,6 +151,8 @@ SIM118 Use `key in dict` instead of `key in dict.keys()`
 - ✅ **Write comprehensive tests** (cover happy path and edge cases)
 - ✅ **Document with examples** (but skip doctests for optional dependencies)
 - ✅ **Follow project conventions** (naming, structure, style)
+- ✅ **Structure conditional imports properly** (avoid module-level optional dependencies)
+- ✅ **Define optional classes conditionally** (inside availability checks)
 
 ### **CI Preparation**
 - ✅ **Test in clean environment** (virtual environment, fresh install)
@@ -154,6 +172,8 @@ SIM118 Use `key in dict` instead of `key in dict.keys()`
 3. **Fix systematically**: Address one issue type at a time
 4. **Test locally**: Reproduce CI environment conditions when possible
 5. **Commit incrementally**: Small, focused commits for easier debugging
+6. **Check import structure**: Verify conditional imports work in minimal environments
+7. **Test class definitions**: Ensure optional dependency classes are properly scoped
 
 ## 🚀 **IMMEDIATE ACTIONS**
 
@@ -166,6 +186,46 @@ cd /Users/rona/my_repos/anndata && gh pr ready 2127
 1. Monitor for reviewer feedback (respond within 24 hours)
 2. Submit Scanpy PRs based on AnnData reception
 3. Document maintainer preferences for future contributions
+
+## 🔧 **LESSONS LEARNED FROM CI FIXES**
+
+### **Key Insight: Import Structure Matters**
+The most critical lesson from fixing the CI failures is that **import structure is crucial** when dealing with optional dependencies. The pattern that works:
+
+```python
+# ✅ CORRECT: Always available imports first
+from module import (
+    AVAILABILITY_FLAG,
+    CoreClass,
+)
+
+# ✅ CORRECT: Optional imports inside conditional blocks
+if AVAILABILITY_FLAG:
+    from module import (
+        OptionalClass,
+        OptionalFunction,
+    )
+    import optional_dependency
+
+    # ✅ CORRECT: Classes inheriting from optional dependencies inside conditional
+    class MyClass(OptionalClass):
+        pass
+```
+
+### **Anti-Pattern to Avoid**
+```python
+# ❌ WRONG: This will fail in minimal environments
+from module import (
+    AVAILABILITY_FLAG,
+    CoreClass,
+    OptionalClass,  # Fails if optional dependency missing
+)
+```
+
+### **Testing Strategy**
+- Always test imports in minimal environments (like `test-min`)
+- Use `python -c "import module"` to verify import structure
+- Test both with and without optional dependencies installed
 
 ## 🔗 **QUICK REFERENCE**
 
