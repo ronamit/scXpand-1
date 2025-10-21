@@ -37,21 +37,15 @@
 
 A framework for predicting T-cell clonal expansion from single-cell RNA sequencing data.
 
-**Manuscript in preparation** - detailed methodology and benchmarks coming soon.
-
-**[View full documentation](https://scxpand.readthedocs.io/en/latest/)** for comprehensive guides and API reference.
+**[Read the preprint](https://www.biorxiv.org/content/10.1101/2025.09.14.676069v1)** | **[View full documentation](https://scxpand.readthedocs.io/en/latest/)** for comprehensive guides and API reference.
 
 ---
 
 ## Features
 
-- **Multiple Model Architectures**:
-  - **Autoencoder-based**: Encoder-decoder with reconstruction and classification heads
-  - **MLP**: Multi-layer perceptron
-  - **LightGBM**: Gradient boosted decision trees
-  - **Linear Models**: Logistic regression and support vector machines
+- **Multiple Model Architectures**: Autoencoder, MLP, LightGBM, Logistic Regression, and SVM
 - **Scalable Processing**: Handles millions of cells with memory-efficient data streaming from disk during training
-- **Automated Hyperparameter Optimization**: Built-in Optuna integration for model tuning
+- **Automated Hyperparameter Optimization**: Built-in hyperparameter search for model tuning
 
 ---
 
