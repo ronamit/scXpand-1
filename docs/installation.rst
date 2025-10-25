@@ -13,35 +13,65 @@ Installation Guide
 Installing the Published Package
 --------------------------------
 
+Option 1: Using uv (recommended)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**1. Install uv**
+
+`uv <https://docs.astral.sh/uv/>`_ is a fast Python package manager.
+
+**Windows users**: First install `Microsoft C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ (required for compiling certain Python packages).
+
+→ `Install uv <https://docs.astral.sh/uv/getting-started/installation/>`_
+
+**2. Create and activate virtual environment**
+
+.. code-block:: bash
+
+   uv venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+**3. Install scXpand**
+
 scXpand is available in two variants to match your hardware:
 
-If you have an NVIDIA GPU with CUDA support:
+- **If you have an NVIDIA GPU with CUDA support:**
 
-With plain *pip* (add CUDA index):
+  .. code-block:: bash
 
-.. code-block:: bash
+     uv pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128 --index-strategy unsafe-best-match
 
-   pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128
+- **Otherwise (CPU, Apple Silicon, or non-CUDA GPUs):**
 
-With **uv**:
+  .. code-block:: bash
 
-.. code-block:: bash
+     uv pip install --upgrade scxpand
 
-   uv pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128 --index-strategy unsafe-best-match
+Option 2: Using pip
+~~~~~~~~~~~~~~~~~~~
 
-Otherwise (CPU, Apple Silicon, or non-CUDA GPUs):
-
-With plain *pip*:
-
-.. code-block:: bash
-
-   pip install --upgrade scxpand
-
-With **uv**:
+**1. Create and activate virtual environment**
 
 .. code-block:: bash
 
-   uv pip install --upgrade scxpand
+   python -m venv scxpand-env
+   source scxpand-env/bin/activate  # On Windows: scxpand-env\Scripts\activate
+
+**2. Install scXpand**
+
+scXpand is available in two variants to match your hardware:
+
+- **If you have an NVIDIA GPU with CUDA support:**
+
+  .. code-block:: bash
+
+     pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128
+
+- **Otherwise (CPU, Apple Silicon, or non-CUDA GPUs):**
+
+  .. code-block:: bash
+
+     pip install --upgrade scxpand
 
 
 Development Setup (from Source)
@@ -54,7 +84,11 @@ To work with the latest version on GitHub (for development or contributions):
     git clone https://github.com/yizhak-lab-ccg/scXpand.git
     cd scXpand
 
-scXpand uses `uv <https://docs.astral.sh/uv/>`_ for fast, reliable dependency management. Use the provided install scripts:
+scXpand uses `uv <https://docs.astral.sh/uv/>`_ for fast, reliable dependency management.
+
+**Windows users**: Before proceeding, install `Microsoft C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_.
+
+Use the provided install scripts:
 
 **macOS/Linux:**
 
