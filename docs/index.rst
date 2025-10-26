@@ -36,6 +36,8 @@ Quick Start
 
 **Installation (Published Package):**
 
+**Windows users**: First install `Microsoft C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ if not already installed (required for compiling certain Python packages).
+
 If you have an NVIDIA GPU with CUDA support:
 
 With plain *pip* (add CUDA index):
