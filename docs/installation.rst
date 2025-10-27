@@ -3,19 +3,88 @@ Installation Guide
 
 .. note::
 
-   This guide covers two installation methods:
+   This guide covers two installation types:
 
-   - **Installing the Published Package** (recommended for most users):
+   - **Installing the Published scXpand Package** (recommended for most users):
      Use this if you want to use scXpand for analysis or inference.
    - **Local Development Setup** (for contributors/developers):
-     Use this if you want to contribute to scXpand or work with the latest source code from GitHub.
+     Use this if you want to contribute to scXpand or work with the source code from GitHub.
 
-Installing the Published Package
+Installing the Published scXpand Package
 --------------------------------
 
-**Windows users**: First install `Microsoft C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ if not already installed (required for compiling certain Python packages).
 
-Option 1: Using uv (recommended)
+Prerequisites
+~~~~~~~~~~~~~
+
+- **Windows users**: First install `Microsoft C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ if not already installed (required for compiling certain Python packages).
+
+Option 1: Using Virtual Environment with pip
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**1. Create and activate virtual environment**
+
+.. code-block:: bash
+
+   # Create virtual environment (use python3.13, python3.12, or python3.11)
+   python3.13 -m venv scxpand-env
+
+   # Activate it:
+   # On macOS/Linux:
+   source scxpand-env/bin/activate
+
+   # On Windows (Command Prompt):
+   # scxpand-env\Scripts\activate.bat
+
+   # On Windows (PowerShell):
+   # scxpand-env\Scripts\Activate.ps1
+
+**2. Install scXpand**
+
+scXpand is available in two variants to match your hardware:
+
+- **If you have an NVIDIA GPU with CUDA support:**
+
+  .. code-block:: bash
+
+     pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128
+
+- **Otherwise (CPU, Apple Silicon, or non-CUDA GPUs):**
+
+  .. code-block:: bash
+
+     pip install --upgrade scxpand
+
+Option 2: Using Conda with pip
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**1. Create and activate conda environment**
+
+.. code-block:: bash
+
+   # Create conda environment (use python=3.13, python=3.12, or python=3.11)
+   conda create -n scxpand-env python=3.13
+
+   # Activate it:
+   conda activate scxpand-env
+
+**2. Install scXpand**
+
+scXpand is available in two variants to match your hardware:
+
+- **If you have an NVIDIA GPU with CUDA support:**
+
+  .. code-block:: bash
+
+     pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128
+
+- **Otherwise (CPU, Apple Silicon, or non-CUDA GPUs):**
+
+  .. code-block:: bash
+
+     pip install --upgrade scxpand
+
+Option 3: Using the `uv <https://docs.astral.sh/uv/>`_ package manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **1. Install uv**
@@ -28,8 +97,18 @@ Option 1: Using uv (recommended)
 
 .. code-block:: bash
 
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   # Create virtual environment (use --python 3.13, 3.12, or 3.11)
+   uv venv --python 3.13
+
+   # Activate it:
+   # On macOS/Linux:
+   source .venv/bin/activate
+
+   # On Windows (Command Prompt):
+   # .venv\Scripts\activate.bat
+
+   # On Windows (PowerShell):
+   # .venv\Scripts\Activate.ps1
 
 **3. Install scXpand**
 
@@ -47,31 +126,33 @@ scXpand is available in two variants to match your hardware:
 
      uv pip install --upgrade scxpand
 
-Option 2: Using pip
-~~~~~~~~~~~~~~~~~~~
+Verify Your Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**1. Create and activate virtual environment**
+After installation, verify that scXpand is working correctly:
 
 .. code-block:: bash
 
-   python -m venv scxpand-env
-   source scxpand-env/bin/activate  # On Windows: scxpand-env\Scripts\activate
+   python -c "import scxpand; print(f'scXpand version: {scxpand.__version__}')"
 
-**2. Install scXpand**
+You should see the installed version number printed.
 
-scXpand is available in two variants to match your hardware:
+Troubleshooting
+~~~~~~~~~~~~~~~
 
-- **If you have an NVIDIA GPU with CUDA support:**
+**Import Error or ModuleNotFoundError**
+  Make sure your virtual environment is activated before running Python.
 
-  .. code-block:: bash
+**Permission Errors During Installation**
+  On Unix systems, avoid using ``sudo``. Instead, use a virtual environment (recommended) or the ``--user`` flag.
 
-     pip install --upgrade scxpand-cuda --extra-index-url https://download.pytorch.org/whl/cu128
+**CUDA Installation Issues**
+  - Verify your NVIDIA drivers are up to date
+  - Check CUDA compatibility: PyTorch 2.x with CUDA 12.8 requires NVIDIA drivers ≥525.60.13
+  - For older CUDA versions, install the CPU version (``scxpand``) instead
 
-- **Otherwise (CPU, Apple Silicon, or non-CUDA GPUs):**
-
-  .. code-block:: bash
-
-     pip install --upgrade scxpand
+**Windows: "error: Microsoft Visual C++ 14.0 or greater is required"**
+  Install `Microsoft C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ as mentioned in Prerequisites.
 
 
 Development Setup (from Source)
@@ -115,8 +196,11 @@ Then activate the environment:
 
 .. code-block:: bash
 
-    # macOS/Linux:
+    # On macOS/Linux:
     source .venv/bin/activate
 
-    # Window Command Prompt:
-    .\.venv\Scripts\activate
+    # On Windows (Command Prompt):
+    .venv\Scripts\activate.bat
+
+    # On Windows (PowerShell):
+    .venv\Scripts\Activate.ps1
