@@ -79,7 +79,7 @@ if results.has_metrics:
     print(f"AUROC: {results.get_auroc():.3f}")
 ```
 
-See our **[Tutorial Notebook](docs/notebooks/scxpand_tutorial.ipynb)** for a complete example with data preprocessing, T-cell filtering, gene ID conversion, and model application using a real breast cancer dataset.
+See our **[Predicting T Cell Expansion from scRNA-seq Data](docs/notebooks/scxpand_tutorial.ipynb)** tutorial for a complete example with data preprocessing, T-cell filtering, gene ID conversion, and model application using a real breast cancer dataset.
 
 ---
 
