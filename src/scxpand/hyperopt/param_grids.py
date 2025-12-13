@@ -8,7 +8,7 @@ Optuna's trial.suggest_* methods with appropriate ranges and distributions.
 import optuna
 
 from scxpand.lightgbm.lightgbm_params import BoostingType, MetricType, ObjectiveType
-from scxpand.util.classes import LRSchedulerType, SamplerType
+from scxpand.util.classes import LRSchedulerType, OptimizerType, SamplerType
 
 # Fixed choices for auxiliary categorical tasks, stored as strings for Optuna persistence
 # These represent additional classification tasks that can be learned alongside the main task
@@ -171,6 +171,13 @@ def configure_mlp_trial_params(trial: optuna.Trial) -> dict:
     )  # Second moment decay
     adam_betas = (adam_beta1, adam_beta2)
 
+    # Optimizer type: AdamW is recommended (better weight decay handling)
+    optimizer_type_str = trial.suggest_categorical(
+        "mlp_optimizer_type",
+        (OptimizerType.ADAMW.value, OptimizerType.ADAM.value, OptimizerType.SGD.value),
+    )
+    optimizer_type = OptimizerType(optimizer_type_str)
+
     # Generate scheduler-specific configuration with optimized parameters
     lr_scheduler_config = create_optimized_lr_scheduler_config(
         trial, lr_scheduler_type, n_epochs, "mlp_"
@@ -222,6 +229,7 @@ def configure_mlp_trial_params(trial: optuna.Trial) -> dict:
         "lr_scheduler_type": lr_scheduler_type,
         "lr_scheduler_config": lr_scheduler_config,
         "adam_betas": adam_betas,
+        "optimizer_type": optimizer_type,
     }
     return params
 
@@ -292,6 +300,13 @@ def configure_ae_trial_params(trial: optuna.Trial) -> dict:
         "ae_adam_beta2", 0.95, 0.999
     )  # Second moment decay
     adam_betas = (adam_beta1, adam_beta2)
+
+    # Optimizer type: AdamW is recommended (better weight decay handling)
+    optimizer_type_str = trial.suggest_categorical(
+        "ae_optimizer_type",
+        (OptimizerType.ADAMW.value, OptimizerType.ADAM.value),
+    )
+    optimizer_type = OptimizerType(optimizer_type_str)
 
     # Generate scheduler-specific configuration with optimized parameters
     lr_scheduler_config = create_optimized_lr_scheduler_config(
@@ -392,6 +407,7 @@ def configure_ae_trial_params(trial: optuna.Trial) -> dict:
         "lr_scheduler_type": lr_scheduler_type,
         "lr_scheduler_config": lr_scheduler_config,
         "adam_betas": adam_betas,
+        "optimizer_type": optimizer_type,
         "model_type": model_type,  # autoencoder type
         "loss_type": loss_type,  # loss function type
         "latent_dim": latent_dim,
